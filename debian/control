@@ -1,0 +1,35 @@
+Source: golang-github-magiconair-properties
+Maintainer: Debian Go Packaging Team <team+pkg-go@tracker.debian.org>
+Uploaders: Anthony Fok <foka@debian.org>,
+           Tim Potter <tpot@hpe.com>
+Section: golang
+Testsuite: autopkgtest-pkg-go
+Priority: optional
+Build-Depends: debhelper-compat (= 13),
+               dh-golang,
+               golang-any
+Standards-Version: 4.6.0
+Vcs-Browser: https://salsa.debian.org/go-team/packages/golang-github-magiconair-properties
+Vcs-Git: https://salsa.debian.org/go-team/packages/golang-github-magiconair-properties.git
+Homepage: https://github.com/magiconair/properties
+Rules-Requires-Root: no
+XS-Go-Import-Path: github.com/magiconair/properties
+
+Package: golang-github-magiconair-properties-dev
+Architecture: all
+Multi-Arch: foreign
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Description: Java properties scanner for Go
+ “properties” is a Go library for reading and writing properties files.
+ .
+ It supports reading from multiple files and Spring style recursive
+ property expansion of expressions like ${}{key} to their corresponding
+ value.  Value expressions can refer to other keys like in ${}{key} or
+ to environment variables like in ${}{USER}.  Filenames can also contain
+ environment variables like in /home/${}{USER}/myapp.properties.
+ .
+ Comments and the order of keys are preserved. Comments can be modified
+ and can be written to the output.
+ .
+ The properties library supports both ISO-8859-1 and UTF-8 encoded data.

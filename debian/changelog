@@ -1,0 +1,169 @@
+golang-github-magiconair-properties (1.8.5-1) unstable; urgency=medium
+
+  * New upstream version 1.8.5
+  * Bump Standards-Version to 4.6.0 (no change)
+  * Mark library package with "Multi-Arch: foreign"
+  * Add debian/upstream/metadata
+
+ -- Anthony Fok <foka@debian.org>  Fri, 29 Oct 2021 03:53:46 -0600
+
+golang-github-magiconair-properties (1.8.4-1) unstable; urgency=medium
+
+  * New upstream version 1.8.4
+    - Fix `time: invalid duration "ghi"` error in TestMustGetParsedDuration
+      with go1.15 (Closes: #975190)
+  * Bump debhelper dependency to "Build-Depends: debhelper-compat (= 13)"
+  * Bump Standards-Version to 4.5.0 (no change)
+  * debian/control: Change Section from devel to golang
+  * Add "Rules-Requires-Root: no" to debian/control
+  * debian/gbp.conf: Set debian-branch to debian/sid for DEP-14 conformance
+  * Update copyright years and the formatting of BSD-2-clause
+    according to upstream revised LICENSE.md
+
+ -- Anthony Fok <foka@debian.org>  Tue, 24 Nov 2020 03:33:32 -0700
+
+golang-github-magiconair-properties (1.8.1+really1.8.1-1) unstable; urgency=medium
+
+  * Revert to upstream version 1.8.1 now that Debian 10 "buster" is released.
+    See https://bugs.debian.org/928227 for background information.
+  * Bump Standards-Version to 4.4.0 (no change)
+
+ -- Anthony Fok <foka@debian.org>  Thu, 11 Jul 2019 18:27:06 -0600
+
+golang-github-magiconair-properties (1.8.1+really1.8.0-1) unstable; urgency=medium
+
+  * Team upload.
+  * Revert all changes between 1.8.0-1 and 1.8.1-1.
+    See https://bugs.debian.org/928227 for a rationale.
+
+ -- Dr. Tobias Quathamer <toddy@debian.org>  Mon, 03 Jun 2019 17:42:15 +0200
+
+golang-github-magiconair-properties (1.8.1-1) unstable; urgency=medium
+
+  * New upstream version 1.8.1
+  * Update Maintainer email address to team+pkg-go@tracker.debian.org
+  * Bump Standards-Version to 4.3.0 (no change)
+  * Update copyright years in debian/copyright
+
+ -- Anthony Fok <foka@debian.org>  Fri, 24 May 2019 10:45:35 -0600
+
+golang-github-magiconair-properties (1.8.0-1) unstable; urgency=medium
+
+  [ Alexandre Viau ]
+  * Point Vcs-* urls to salsa.debian.org.
+
+  [ Anthony Fok ]
+  * New upstream version 1.8.0
+  * Bump Standards-Version to 4.1.4 (no change)
+  * Use debhelper (>= 11)
+
+ -- Anthony Fok <foka@debian.org>  Tue, 26 Jun 2018 02:58:49 -0600
+
+golang-github-magiconair-properties (1.7.6-1) unstable; urgency=medium
+
+  * New upstream version 1.7.6
+  * Apply "cme fix dpkg" to debian/control, setting Priority to optional,
+    adding Testsuite: autopkgtest-pkg-go, and bumping Standards-Version
+    to 4.1.3, etc.
+
+ -- Anthony Fok <foka@debian.org>  Fri, 02 Mar 2018 23:22:12 -0700
+
+golang-github-magiconair-properties (1.7.3-1) unstable; urgency=medium
+
+  * New upstream version 1.7.3
+
+ -- Anthony Fok <foka@debian.org>  Fri, 21 Jul 2017 13:13:58 -0600
+
+golang-github-magiconair-properties (1.7.2-1) unstable; urgency=medium
+
+  [ Tim Potter ]
+  * Add me to uploaders
+
+  [ Anthony Fok ]
+  * New upstream version 1.7.2
+  * Revert "Set 'USER=nobody' in override_dh_auto_test to fix FTBFS"
+    Special thanks to Dmitry Smirnov notifying the upstream author
+    who quickly fixed the issue.
+    See https://github.com/magiconair/properties/issues/14
+  * Remove dependency on golang-gopkg-check.v1-dev.
+    See https://github.com/magiconair/properties/issues/15
+  * Use debhelper (>= 10)
+  * Bump Standards-Version to 4.0.0:
+    Use https form of the copyright-format URL in debian/copyright
+  * Update copyright years in debian/copyright
+  * Add "Testsuite: autopkgtest-pkg-go" to debian/control
+
+ -- Anthony Fok <foka@debian.org>  Mon, 10 Jul 2017 04:47:58 -0600
+
+golang-github-magiconair-properties (1.7.0-2) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Anthony Fok ]
+  * Replaced old dependency "golang-check.v1-dev" with
+    "golang-gopkg-check.v1-dev".
+
+  [ Dmitry Smirnov ]
+  * Set "USER=nobody" in override_dh_auto_test to fix FTBFS (Closes: #830727).
+  * Fixed long package description by escaping '$' characters to prevent
+    variable substitution in dpkg-gencontrol.
+
+ -- Dmitry Smirnov <onlyjob@debian.org>  Fri, 22 Jul 2016 15:05:36 +1000
+
+golang-github-magiconair-properties (1.7.0-1) unstable; urgency=medium
+
+  * New upstream version
+  * Remove debian/patches/001-make-test-work-on-32-bit.patch
+    which is now part of the 1.7.0 upstream release.
+  * Update debian/copyright for 2016
+  * Update debian/control:
+    - Change Build-Depends on golang-go to the new golang-any package
+    - Remove unneeded Depends on "golang-go | gccgo"
+    - Use secure https URLs for Vcs-Git too
+    - Bump Standards-Version to 3.9.8 (no change)
+  * Disable vendoring in of gopkg.in/check.v1
+    which upstream first added in version 1.5.6.
+
+ -- Anthony Fok <foka@debian.org>  Thu, 02 Jun 2016 17:43:43 -0600
+
+golang-github-magiconair-properties (1.6.0-3) unstable; urgency=medium
+
+  * Allow package to be installed with gccgo where golang-go is unavailable
+  * Update debian/copyright
+
+ -- Anthony Fok <foka@debian.org>  Fri, 15 Jan 2016 00:16:23 -0700
+
+golang-github-magiconair-properties (1.6.0-2) unstable; urgency=medium
+
+  * Add upstream patch to make test work on 32-bit,
+    see https://github.com/magiconair/properties/issues/7 for details.
+
+ -- Anthony Fok <foka@debian.org>  Tue, 22 Dec 2015 19:17:46 -0700
+
+golang-github-magiconair-properties (1.6.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Anthony Fok <foka@debian.org>  Thu, 17 Dec 2015 03:06:03 -0700
+
+golang-github-magiconair-properties (1.5.6-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Anthony Fok <foka@debian.org>  Tue, 03 Nov 2015 09:36:31 -0700
+
+golang-github-magiconair-properties (1.5.5-1) unstable; urgency=medium
+
+  * Import Upstream version 1.5.5, which is equivalent to my erroneously
+    named 0.0~git20150731.0.337395e.
+  * Add debian/watch.  Upstream authors tag releases regularly.  :-)
+  * Remove irrelevant paragraph from package description.
+    Thanks to Guido Günther for the suggestion!
+
+ -- Anthony Fok <foka@debian.org>  Thu, 24 Sep 2015 15:50:06 -0600
+
+golang-github-magiconair-properties (0.0~git20150731.0.337395e-1) unstable; urgency=medium
+
+  * Initial release (Closes: #799737)
+
+ -- Anthony Fok <foka@debian.org>  Mon, 21 Sep 2015 20:08:51 -0600
