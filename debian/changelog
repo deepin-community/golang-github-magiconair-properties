@@ -1,3 +1,12 @@
+golang-github-magiconair-properties (1.8.7-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 1.8.7
+  * Update uscan watch file version to 4
+  * Update Standards-Version to 4.6.2 (no changes)
+
+ -- Shengjing Zhu <zhsj@debian.org>  Wed, 18 Jan 2023 17:41:35 +0800
+
 golang-github-magiconair-properties (1.8.5-1) unstable; urgency=medium
 
   * New upstream version 1.8.5

@@ -8,7 +8,7 @@ Priority: optional
 Build-Depends: debhelper-compat (= 13),
                dh-golang,
                golang-any
-Standards-Version: 4.6.0
+Standards-Version: 4.6.2
 Vcs-Browser: https://salsa.debian.org/go-team/packages/golang-github-magiconair-properties
 Vcs-Git: https://salsa.debian.org/go-team/packages/golang-github-magiconair-properties.git
 Homepage: https://github.com/magiconair/properties
