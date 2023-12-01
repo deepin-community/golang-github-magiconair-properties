@@ -1,4 +1,4 @@
-// Copyright 2018 Frank Schroeder. All rights reserved.
+// Copyright 2013-2022 Frank Schroeder. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,22 +6,17 @@ package properties
 
 import (
 	"bytes"
-	"flag"
 	"fmt"
 	"math"
 	"os"
 	"reflect"
 	"regexp"
-	"runtime"
-	"strconv"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/magiconair/properties/assert"
 )
-
-var verbose = flag.Bool("verbose", false, "Verbose output")
 
 func init() {
 	ErrorHandler = PanicHandler
@@ -559,31 +554,6 @@ func TestGetParsedDuration(t *testing.T) {
 	}
 }
 
-func TestMustGetParsedDuration(t *testing.T) {
-	input := "key = 123ms\nkey2 = ghi"
-	p := mustParse(t, input)
-	assert.Equal(t, p.MustGetParsedDuration("key"), 123*time.Millisecond)
-
-	// parse runtime.Version into major and minor version
-	var major, minor int
-	ver := strings.Split(runtime.Version(), ".")
-	devel := !strings.HasPrefix(ver[0], "go")
-	major, _ = strconv.Atoi(strings.TrimPrefix(ver[0], "go"))
-	if len(ver) > 1 {
-		minor, _ = strconv.Atoi(ver[1])
-	}
-
-	switch {
-	case devel || major == 1 && minor >= 15:
-		// go1.15 ... gotip
-		assert.Panic(t, func() { p.MustGetParsedDuration("key2") }, `time: invalid duration "ghi"`)
-	default:
-		// go1.x..go1.14
-		assert.Panic(t, func() { p.MustGetParsedDuration("key2") }, `time: invalid duration ghi`)
-	}
-	assert.Panic(t, func() { p.MustGetParsedDuration("invalid") }, "unknown property: invalid")
-}
-
 func TestGetFloat64(t *testing.T) {
 	for _, test := range floatTests {
 		p := mustParse(t, test.input)
@@ -828,7 +798,7 @@ func TestWrite(t *testing.T) {
 			n, err = p.Write(buf, ISO_8859_1)
 		}
 		assert.Equal(t, err, nil)
-		s := string(buf.Bytes())
+		s := buf.String()
 		assert.Equal(t, n, len(test.output), fmt.Sprintf("input=%q expected=%q obtained=%q", test.input, test.output, s))
 		assert.Equal(t, s, test.output, fmt.Sprintf("input=%q expected=%q obtained=%q", test.input, test.output, s))
 	}
@@ -847,7 +817,7 @@ func TestWriteComment(t *testing.T) {
 			n, err = p.WriteComment(buf, "# ", ISO_8859_1)
 		}
 		assert.Equal(t, err, nil)
-		s := string(buf.Bytes())
+		s := buf.String()
 		assert.Equal(t, n, len(test.output), fmt.Sprintf("input=%q expected=%q obtained=%q", test.input, test.output, s))
 		assert.Equal(t, s, test.output, fmt.Sprintf("input=%q expected=%q obtained=%q", test.input, test.output, s))
 	}
@@ -943,6 +913,38 @@ func TestLoad(t *testing.T) {
 
 // ----------------------------------------------------------------------------
 
+// GOMAXPROCS=1 go test -run='^$' -bench '^BenchmarkMerge$' github.com/magiconair/properties
+// goos: darwin
+// goarch: arm64
+// pkg: github.com/magiconair/properties
+// BenchmarkMerge/num_properties_100         	  469435	      2533 ns/op
+// BenchmarkMerge/num_properties_1000        	   39649	     29420 ns/op
+// BenchmarkMerge/num_properties_10000       	    2786	    427934 ns/op
+// BenchmarkMerge/num_properties_100000      	     244	   4749766 ns/op
+// PASS
+// ok  	github.com/magiconair/properties	6.842s
+func BenchmarkMerge(b *testing.B) {
+	for _, n := range []int{1e2, 1e3, 1e4, 1e5} {
+		p := generateProperties(n)
+		b.Run(fmt.Sprintf("num_properties_%d", n), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				p.Merge(p)
+			}
+		})
+	}
+}
+
+func generateProperties(n int) *Properties {
+	p := NewProperties()
+	for i := 0; i < n; i++ {
+		s := fmt.Sprintf("%v", i)
+		p.Set(s, s)
+	}
+	return p
+}
+
+// ----------------------------------------------------------------------------
+
 // tests all combinations of delimiters, leading and/or trailing whitespace and newlines.
 func testWhitespaceAndDelimiterCombinations(t *testing.T, key, value string) {
 	whitespace := []string{"", " ", "\f", "\t"}
@@ -1005,11 +1007,4 @@ func mustParse(t *testing.T, s string) *Properties {
 		t.Fatalf("parse failed with %s", err)
 	}
 	return p
-}
-
-// prints to stderr if the -verbose flag was given.
-func printf(format string, args ...interface{}) {
-	if *verbose {
-		fmt.Fprintf(os.Stderr, format, args...)
-	}
 }
